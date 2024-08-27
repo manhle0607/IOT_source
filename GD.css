@@ -1,0 +1,511 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+nav ul li:not(li.list_down_item) {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    background-color: #666;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li a i {
+    align-items: center;
+    padding-left: 5px;
+}
+
+nav ul .list {
+    position: relative;
+}
+
+nav ul .list .list_down {
+    visibility: hidden;
+    position: absolute;
+    top: 20; 
+    left: 0;
+    background-color: #c8c1c1;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); 
+    padding: 10px 0;
+    z-index: 1000;
+    width: 300px;
+    height: 0;
+    box-sizing: border-box;
+    display: block;
+    transition: all 0.3s;
+    margin-top: 20px;
+    opacity: 0;
+}
+
+.list_down_item {
+    padding: 8px;
+    text-align: center;
+}
+
+.list:hover .list_down {
+    display: block;
+    top: 80%;
+    height: 235px;
+    opacity: 1;
+    margin-top: 10px;
+    visibility: visible;
+}
+
+.list_down_item a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+
+
+.list_down_item a:hover {
+    background-color: #007BFF;
+}
+
+
+
+nav ul li a:hover {
+    background-color: #007BFF;
+}
+
+/* Bang dieu khien */
+
+
+section .table {
+    display: grid;
+    width: 600px;
+    margin: 60px auto;
+}
+
+.table-con {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+
+.item-2 {
+    height: 300px;
+    width: 100%;
+}
+
+canvas {
+    width: 400px;
+    height: 200px;
+}
+
+
+.item-3 {
+    background-color: green;
+    height: 300px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 100%;
+} 
+
+.item-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+}
+.item-con {
+    border: 1px solid gray;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.i3 {
+    border: 1px solid gray;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr; */
+}
+
+
+.table .item .item-con button {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.table .item .item-con button i {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+}
+#text {
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.switch {
+    width: 90px;
+    height: 50px;
+    display: flex;
+    appearance: none;
+    background-color: rgb(188, 20, 20);
+    border-radius: 36px;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
+}
+
+.switch::before {
+    content: "";
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    background-color: aliceblue;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: all 0.3s;
+    transition-delay: 0.5s;
+}
+
+.switch:checked:before {
+    left: 40px;
+}
+
+
+
+.i3 p {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-items: center;
+    margin: 0;
+    flex: 0.9;
+}
+
+.i3 p i {
+    font-size: 30px;
+    
+}
+
+.i3 p.quat:hover {
+    animation: spin 1s infinite linear;
+}
+
+.i3 p.dhoa:hover {
+    animation: drop 2.5s infinite linear;
+}
+
+
+
+.i3:hover p i {
+    animation: rotateFan 1s infinite linear, floatFan 2s infinite ease-in-out;
+    color: #fff; /* Đổi màu biểu tượng khi hover */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
+
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes drop {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
+
+/* table_cam_bien */
+
+.search {
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.search button {
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.search input {
+    padding: 10px;
+}
+
+.table_cam_bien {
+    display: grid;
+    margin: 60px auto;
+    width: 700px;
+    height: 300px;
+    grid-template-rows: 50px 200px;
+}
+
+.table_cam_bien .cac_phan {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.cac_phan .bd {
+    border: 1px solid gray;
+}
+
+.bd p {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+.table_cam_bien .thong_so {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: 200px;
+}
+
+.thong_so .ts {
+    border: 1px solid gray;
+    box-sizing: border-box;
+
+}
+
+.ts p {
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+/* phan trang */
+
+ul.phan_trang {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-top: 50px;
+}
+li.phan_trang_item {
+    background-color: #2ab6e3;
+    color: white;
+    display: inline-block;
+    margin: 0 10px;
+    padding: 15px 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+li.active {
+    background-color: red;
+
+}
+
+.prev-arrow, .next-arrow {
+    cursor: pointer;
+}
+
+/*lsu_van_tat_tbi*/
+
+.search-2 {
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 140px;
+}
+
+.search-2 button {
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.search-2 input {
+    padding: 10px;
+}
+
+
+.lsu_van_tat_tbi {
+    display: grid;
+    margin: 0 auto;
+    width: 600px;
+    height: 300px;
+    grid-template-rows: 50px 200px;
+    margin-top: 117px;
+}
+
+.lsu_van_tat_tbi .cac_phan {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cac_phan .cc {
+    border: 1px solid gray;
+}
+.cc p {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.lsu_van_tat_tbi .thong_so {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    
+}
+
+.thong_so .tso {
+    border: 1px solid gray;
+}
+
+.tso p {
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/* profile */
+
+.profile {
+    display: grid;
+    width: 800px;
+    grid-template-columns: 1fr 1fr;
+    margin: 60px auto;
+    grid-auto-rows: minmax(auto,auto);
+    margin-top: 150px;
+}
+
+.avatar img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.profile .cot-1 {
+    display: grid;
+}
+
+.profile .khoang_trong {
+    width: 250px;
+    height: 250px;
+}
+
+
+.profile .cot-2 .info-list {
+    list-style: none;
+}
+
+
+.profile .cot-2 .info-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.profile .cot-2 .info-list i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    background-image: linear-gradient(to right, #2ab6e3 0%, #2ab6e3 100%);
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+
+.hoc_van, .ky_nang, .chung_chi {
+    padding-left: 40px;
+    display: flex;
+}
+
+.hoc_van i, .ky_nang i, .chung_chi i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    background-image: linear-gradient(to right, #2ab6e3 0%, #2ab6e3 100%);
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+

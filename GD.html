@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="GD.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <style></style>
+
+
+    <header>
+        <div class="logo">
+            <img src="logo.jpg" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="gt.html" target="_blank"">Giới thiệu</a></li>
+                <li class=" list"><a href="">Dịch vụ <i class="fa-solid fa-angle-down"></i></a>
+                        <!-- <div class="khoang_cach"></div> -->
+                        <ul class="list_down">
+                            <li class="list_down_item"><a href="#Bang_dieu_khien">Bảng điều khiển</a></li>
+                            <li class="list_down_item"><a href="#Du_lieu_cam_bien">Dữ liệu cảm biến</a></li>
+                            <li class="list_down_item"><a href="#Lich_su_van_tat_tbi">Lịch sử vắn tắt thiết bị</a></li>
+                            <li class="list_down_item"><a href="#Profile">Profile</a></li>
+                        </ul>
+                </li>
+                <li><a href="kh.html">Khách hàng</a></li>
+                <li><a href="#Profile">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <div class="table" id="Bang_dieu_khien">
+            <div class="item-1 item">
+                <div class="item-con"><button id="btn-nhietdo">Nhiệt độ <i
+                            class="fa-solid fa-temperature-three-quarters"></i></div>
+                <div class="item-con"><button id="btn-doam">Độ ẩm <i class="fa-solid fa-droplet"></i></button> </div>
+                <div class="item-con"><button id="btn-anhsang">Ánh sáng <i class="fa-solid fa-sun"></i></button></div>
+            </div>
+            <div class="table-con">
+                <div class="item-2">
+                    <canvas id="temperatureChart" style="width: 400px; height: 300px;"></canvas>
+                    <canvas id="humidityChart" style="width: 400px; height: 300px; display: none;"></canvas>
+                    <canvas id="lightChart" style="width: 400px; height: 300px; display: none;"></canvas>
+                </div>
+                <div class="item-3">
+                    <div class="i3 item-3-1">
+                        <p class="quat"><i class="fa-solid fa-fan"></i></p>
+                        <input type="checkbox" class="switch" id="on-off-quat">
+                    </div>
+
+                    <div class="i3 item-3-2">
+                        <p class="dhoa"><i class="fa-solid fa-snowflake"></i></p>
+                        <input type="checkbox" class="switch" id="on-off-dh">
+                    </div>
+
+                    <div class="i3 item-3-3">
+                        <p class="den"><i class="fa-regular fa-lightbulb"></i></p>
+                        <input type="checkbox" class="switch" id="on-off-den">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search">
+            <button class="sort">Sắp xếp</button>
+            <input type="text" name="" id="" placeholder="Tìm kiếm">
+        </div>
+        <div class="table_cam_bien" id="Du_lieu_cam_bien">
+            <div class="cac_phan">
+                <div class="bd">
+                    <p>ID</p>
+                </div>
+                <div class="bd">
+                    <p>Nhiệt độ</p>
+                </div>
+                <div class="bd">
+                    <p>Độ ẩm</p>
+                </div>
+                <div class="bd">
+                    <p>Ánh sáng</p>
+                </div>
+                <div class="bd">
+                    <p>Thời gian</p>
+                </div>
+            </div>
+
+            <div class="thong_so">
+                <div class="id ts">
+                    <p></p>
+                </div>
+                <div class="temp ts">
+                    <p></p>
+                </div>
+                <div class="humid ts">
+                    <p></p>
+                </div>
+                <div class="light ts">
+                    <p></p>
+                </div>
+                <div class="tg ts">
+                    <p></p>
+                </div>
+            </div>
+
+            <ul class="phan_trang kc">
+                <li class="phan_trang_item active">
+                    1
+                </li>
+
+                <li class="phan_trang_item">
+                    2
+                </li>
+
+                <li class="phan_trang_item">
+                    3
+                </li>
+
+                <li class="phan_trang_item">
+                    4
+                </li>
+
+                <li class="phan_trang_item">
+                    5
+                </li>
+
+                <li class="phan_trang_item">
+                    6
+                </li>
+            </ul>
+        </div>
+
+        <div class="search-2">
+            <button class="sort">Sắp xếp</button>
+            <input type="text" name="" id="" placeholder="Tìm kiếm">
+        </div>
+
+        <div class="lsu_van_tat_tbi" id="Lich_su_van_tat_tbi">
+            <div class="cac_phan">
+                <div class="cc">
+                    <p>ID</p>
+                </div>
+                <div class="cc">
+                    <p>Thiết bị</p>
+                </div>
+                <div class="cc">
+                    <p>Hành động</p>
+                </div>
+                <div class="cc">
+                    <p>Thời gian</p>
+                </div>
+            </div>
+
+            <div class="thong_so">
+                <div class="id tso">
+                    <p></p>
+                </div>
+                <div class="tbi tso">
+                    <p></p>
+                </div>
+                <div class="hd tso">
+                    <p></p>
+                </div>
+                <div class="tg tso">
+                    <p></p>
+                </div>
+            </div>
+
+            <ul class="phan_trang kc-device">
+                <li class="phan_trang_item active">
+                    1
+                </li>
+
+                <li class="phan_trang_item">
+                    2
+                </li>
+
+                <li class="phan_trang_item">
+                    3
+                </li>
+
+                <li class="phan_trang_item">
+                    4
+                </li>
+
+                <li class="phan_trang_item">
+                    5
+                </li>
+
+                <li class="phan_trang_item">
+                    6
+                </li>
+            </ul>
+        </div>
+
+        <div class="profile" id="Profile">
+            <div class="cot-1">
+
+                <div class="gioi_thieu">
+                    <div class="avatar"><img src="anhprofile.jpg" alt=""></div>
+                    <p><b>Lê Xuân Mạnh</b></p>
+                    <p>Mã sinh viên: B21DCAT125</p>
+                    <p>Lớp: D21CQAT01-B</p>
+                    <a href="">link_git</a>
+                </div>
+
+
+
+            </div>
+            <div class="cot-2">
+                <ul class="info-list">
+                    <li><i class="fas fa-phone"></i> 0967391997</li>
+                    <li><i class="fas fa-envelope"></i> lexuanmanh673@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Hà Đông, Hà Nội</li>
+                    <li><i class="fas fa-birthday-cake"></i> 06/07/2003</li>
+                    <li><i class="fas fa-male"></i> Nam</li>
+                </ul>
+
+                <div class="hoc_van">
+                    <div class="icon"><i class="fa-solid fa-user-graduate"></i> </div>
+                    <div class="des">
+                        <p><b>HỌC VẤN</b></p>
+                        <p>Đã tốt nghiệp loại giỏi cấp ba</p>
+                        <p>Đang theo học tại PTIT</p>
+                    </div>
+
+                </div>
+
+                <div class="ky_nang">
+                    <div class="icon"><i class="fa-solid fa-gear"></i> </div>
+                    <div class="des">
+                        <p><b>CÁC KĨ NĂNG</b></p>
+                        <p>- Sử dụng thành thạo các công cụ Word, Excel, Power Point</p>
+                        <p>- Khả năng giao tiếp Tiếng Anh trôi chảy</p>
+                    </div>
+
+                </div>
+
+                <div class="chung_chi">
+                    <div class="icon"><i class="fa-solid fa-certificate"></i> </div>
+                    <div class="des">
+                        <p><b>CHỨNG CHỈ</b></p>
+                        <p>- Chứng chỉ TOEIC 780</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="GD.js"></script>
+    <script src="sensor.js"></script>
+    <script src="deviceHistory.js"></script>
+
+    <!-- <script src="database.js"></script> -->
+</body>
+
+</html>
