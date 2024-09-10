@@ -1,158 +1,121 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://localhost:3000/api/sensor_data')
-      .then(response => response.json())
-      .then(data => {
-        const idCol = document.querySelector('.id.ts');
-        const tempCol = document.querySelector('.temp.ts');
-        const humidCol = document.querySelector('.humid.ts');
-        const lightCol = document.querySelector('.light.ts');
-        const timeCol = document.querySelector('.tg.ts');
-  
-        // Xóa toàn bộ nội dung cũ trong các cột
-        idCol.innerHTML = '';
-        tempCol.innerHTML = '';
-        humidCol.innerHTML = '';
-        lightCol.innerHTML = '';
-        timeCol.innerHTML = '';
-  
-        // Thêm dữ liệu vào các cột đã được làm trống
-        data.slice(0, 4).forEach(row => {
-          // Thêm ID vào cột ID
-          const idDiv = document.createElement('p');
-          idDiv.textContent = row.id;
-          idCol.appendChild(idDiv);
-  
-          // Thêm nhiệt độ vào cột Nhiệt độ
-          const tempDiv = document.createElement('p');
-          tempDiv.textContent = row.temp;
-          tempCol.appendChild(tempDiv);
-  
-          // Thêm độ ẩm vào cột Độ ẩm
-          const humidDiv = document.createElement('p');
-          humidDiv.textContent = row.humid;
-          humidCol.appendChild(humidDiv);
-  
-          // Thêm ánh sáng vào cột Ánh sáng
-          const lightDiv = document.createElement('p');
-          lightDiv.textContent = row.light;
-          lightCol.appendChild(lightDiv);
-  
-          // Thêm thời gian vào cột Thời gian
-          const timeDiv = document.createElement('p');
-          timeDiv.textContent = row.time;
-          timeCol.appendChild(timeDiv);
+document.addEventListener('DOMContentLoaded', function () {
+    const data = [];
+    for (let i = 1; i <= 50; i++) {
+        data.push({
+            id: i,
+            temp: 20 + i % 10,   // Example temperature values
+            humid: 50 + i % 10,  // Example humid values
+            light: 300 + i * 2,  // Example light values
+            time: `${10 + Math.floor(i / 5)}:${(i * 5) % 60} AM` // Time in 5 minute intervals
         });
-      })
-      .catch(error => console.error('Error:', error));
-  });
-  
-  // ham phan trang cua bang dieu khien
-  
-  document.addEventListener('DOMContentLoaded', function() {
+    }
+
+    const rowsPerPage = 5;
     let currentPage = 1;
-    const rowsPerPage = 4;
-    
-    fetch('http://localhost:3000/api/sensor_data')
-      .then(response => response.json())
-      .then(data => {
-        const idCol = document.querySelector('.id.ts');
-        const tempCol = document.querySelector('.temp.ts');
-        const humidCol = document.querySelector('.humid.ts');
-        const lightCol = document.querySelector('.light.ts');
-        const timeCol = document.querySelector('.tg.ts');
-  
-        function renderPage(page) {
-          // Xóa toàn bộ nội dung cũ trong các cột
-          idCol.innerHTML = '';
-          tempCol.innerHTML = '';
-          humidCol.innerHTML = '';
-          lightCol.innerHTML = '';
-          timeCol.innerHTML = '';
-  
-          // Tính toán chỉ mục bắt đầu và kết thúc cho trang hiện tại
-          const start = (page - 1) * rowsPerPage;
-          const end = page * rowsPerPage;
-  
-          // Trích xuất và thêm dữ liệu vào các cột
-          const pageData = data.slice(start, end);
-          pageData.forEach(row => {
-            const idDiv = document.createElement('p');
-            idDiv.textContent = row.id;
-            idCol.appendChild(idDiv);
-  
-            const tempDiv = document.createElement('p');
-            tempDiv.textContent = row.temp;
-            tempCol.appendChild(tempDiv);
-  
-            const humidDiv = document.createElement('p');
-            humidDiv.textContent = row.humid;
-            humidCol.appendChild(humidDiv);
-  
-            const lightDiv = document.createElement('p');
-            lightDiv.textContent = row.light;
-            lightCol.appendChild(lightDiv);
-  
-            const timeDiv = document.createElement('p');
-            timeDiv.textContent = row.time;
-            timeCol.appendChild(timeDiv);
-          });
+
+    function renderTable(data, page = 1) {
+        currentPage = page;
+
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedData = data.slice(start, end);
+
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+
+        paginatedData.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.id}</td>
+                <td>${row.temp}</td>
+                <td>${row.humid}</td>
+                <td>${row.light}</td>
+                <td>${row.time}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        renderPagination(data.length, page);
+    }
+
+    function renderPagination(totalRows, page) {
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const maxPagesToShow = 3;  // Number of page links to show at a time
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '<';
+        prevButton.disabled = page === 1;
+        prevButton.addEventListener('click', () => renderTable(filteredData, page - 1));
+        pagination.appendChild(prevButton);
+
+        // Calculate start and end page numbers
+        let startPage = Math.max(1, page - Math.floor(maxPagesToShow / 2));
+        let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+        if (endPage - startPage + 1 < maxPagesToShow) {
+            startPage = Math.max(1, endPage - maxPagesToShow + 1);
         }
-  
-        // Hiển thị trang đầu tiên khi tải trang
-        renderPage(currentPage);
-  
-        // Hàm cập nhật phân trang
-        function updatePagination() {
-          const pagination = document.querySelector('.phan_trang');
-          pagination.innerHTML = ''; // Xóa phân trang cũ
-  
-          const totalPages = Math.ceil(data.length / rowsPerPage);
-  
-          // Thêm nút mũi tên trái nếu không phải trang đầu tiên
-          if (currentPage > 1) {
-            const prevArrow = document.createElement('li');
-            prevArrow.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
-            prevArrow.classList.add('phan_trang_item', 'prev-arrow');
-            prevArrow.addEventListener('click', () => changePage(currentPage - 1));
-            pagination.appendChild(prevArrow);
-          }
-  
-          // Thêm các số trang
-          for (let i = 1; i <= totalPages; i++) {
-            const pageItem = document.createElement('li');
-            pageItem.textContent = i;
-            pageItem.classList.add('phan_trang_item');
-            if (i === currentPage) {
-              pageItem.classList.add('active');
+
+        // Add first page and ellipsis if needed
+        if (startPage > 1) {
+            addPageButton(1);
+            if (startPage > 2) {
+                addEllipsis();
             }
-            pageItem.addEventListener('click', () => changePage(i));
-            pagination.appendChild(pageItem);
-          }
-  
-          // Thêm nút mũi tên phải nếu không phải trang cuối cùng
-          if (currentPage < totalPages) {
-            const nextArrow = document.createElement('li');
-            nextArrow.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-            nextArrow.classList.add('phan_trang_item', 'next-arrow');
-            nextArrow.addEventListener('click', () => changePage(currentPage + 1));
-            pagination.appendChild(nextArrow);
-          }
         }
-  
-        // Hàm thay đổi trang
-        function changePage(page) {
-          currentPage = page;
-          renderPage(currentPage);
-          updatePagination();
+
+        // Add page buttons
+        for (let i = startPage; i <= endPage; i++) {
+            addPageButton(i);
         }
-  
-        // Hiển thị phân trang lần đầu
-        updatePagination();
-      })
-      .catch(error => console.error('Error:', error));
-  });
 
+        // Add last page and ellipsis if needed
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                addEllipsis();
+            }
+            addPageButton(totalPages);
+        }
 
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '>';
+        nextButton.disabled = page === totalPages;
+        nextButton.addEventListener('click', () => renderTable(filteredData, page + 1));
+        pagination.appendChild(nextButton);
 
-  
-  
+        function addPageButton(pageNumber) {
+            const button = document.createElement('button');
+            button.textContent = pageNumber;
+            button.className = pageNumber === page ? 'active' : '';
+            button.addEventListener('click', () => renderTable(filteredData, pageNumber));
+            pagination.appendChild(button);
+        }
+
+        function addEllipsis() {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            pagination.appendChild(ellipsis);
+        }
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    let filteredData = data;
+
+    searchInput.addEventListener('input', function () {
+        const searchText = searchInput.value.toLowerCase();
+        filteredData = data.filter(row =>
+            String(row.id).toLowerCase().includes(searchText) ||
+            String(row.temp).toLowerCase().includes(searchText) ||
+            String(row.humid).toLowerCase().includes(searchText) ||
+            String(row.light).toLowerCase().includes(searchText) ||
+            String(row.time).toLowerCase().includes(searchText)
+        );
+        renderTable(filteredData, 1);
+    });
+
+    renderTable(data, currentPage);
+});
