@@ -1,3 +1,9 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -5,7 +11,9 @@ html {
 body {
     margin: 0;
     font-family: 'Times New Roman', Times, serif;
+    background-color:#f1f1f1;
 }
+
 
 header {
     display: flex;
@@ -16,12 +24,64 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    
 }
 
 .logo img {
-    width: 50px;
+    width: 70px;
     height: auto;
 }
+
+/* CSS để điều khiển trạng thái mặc định của sidebar */
+.sidebar-menu {
+    width: 250px;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Ban đầu sidebar bị thụt vào bên trái */
+    height: 100%;
+    padding-top: 60px;
+    transition: left 0.3s ease; /* Hiệu ứng trượt */
+    z-index: 1000;
+    height: 100vh;
+}
+
+/* Khi có lớp .open, sidebar sẽ trượt ra */
+.sidebar-menu.open {
+    left: 0;
+}
+
+/* CSS cho nút toggle */
+.menu-toggle {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+}
+
+.menu-toggle i {
+    font-size: 1.2rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar-menu {
+        width: 100%;
+        left: -100%; /* Thụt sidebar hoàn toàn ra khỏi màn hình trên thiết bị nhỏ */
+    }
+
+    .sidebar-menu.open {
+        left: 0;
+    }
+}
+
+
 
 nav ul {
     display: flex;
@@ -107,46 +167,128 @@ nav ul li a:hover {
 
 /* Bang dieu khien */
 
+.tab-content-container {
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.sensor_content {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-sizing: border-box;
+    height: auto;
+}
+
+
+.sensor_content > div {
+    flex: 1; /* This ensures that all divs inside sensor_content take equal space */
+    padding: 20px; /* Adjust padding as needed */
+    text-align: center; /* Center the text horizontally */
+    color: black; /* Text color */
+    font-size: 18px; /* Adjust font size as needed */
+}
+
+.nhietdo {
+    background-color: yellow;
+}
+
+.doam {
+    background-color: cyan; /* Background color for Độ ẩm */
+}
+
+.anhsang {
+    background-color: red; /* Background color for Ánh sáng */
+}
+
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+
+p.name {
+    text-align: center;
+    font-size: 20px;
+}
+
+p.n2 {
+    margin-top: 100px;
+}
 
 section .table {
-    display: grid;
-    width: 600px;
-    margin: 60px auto;
+    height: 100vh;
+    margin: 0;
+    grid-template-columns: auto 1fr;
+    padding: 20px;
+    max-height: 100%;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .table-con {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 4fr 1fr;
     align-items: center;
     justify-items: center;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
 }
 
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 6px 10px; /* Smaller padding */
+    text-align: center;
+    height: 40px; /* Reduce the height of the cells */
+}
+
+.table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
 
 .item-2 {
-    height: 300px;
+    height: 100%;
     width: 100%;
 }
 
 canvas {
-    width: 400px;
-    height: 200px;
+    width: 70%;
+    height: 100%;
 }
 
 
 .item-3 {
-    background-color: green;
-    height: 300px;
+    background-color: #c7ab8f;
+    height: 100%;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
-    width: 100%;
+    width: 100% 
 } 
 
 .item-1 {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     width: 100%;
-    height: 50px;
+    height: auto;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 .item-con {
     border: 1px solid gray;
@@ -155,14 +297,22 @@ canvas {
     width: 100%;
     display: flex;
     justify-content: center;
+    flex: 1;
+}
+
+.item-con button {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .i3 {
     border: 1px solid gray;
     width: 100%;
     height: 100%;
-    display: flex;
     align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     /* display: grid;
     grid-template-columns: 1fr 1fr; */
 }
@@ -197,6 +347,7 @@ canvas {
     margin: 0;
     cursor: pointer;
     box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s;
 }
 
 .switch::before {
@@ -216,7 +367,13 @@ canvas {
     left: 40px;
 }
 
+.switch:checked {
+    background-color: #007BFF;
+}
 
+.sensor_content > div p {
+    margin-bottom: 0;
+}
 
 .i3 p {
     display: grid;
@@ -233,22 +390,21 @@ canvas {
     
 }
 
-.i3 p.quat:hover {
+/* .i3 p.quat:hover {
     animation: spin 1s infinite linear;
 }
 
 .i3 p.dhoa:hover {
     animation: drop 2.5s infinite linear;
-}
+} */
 
 
 
-.i3:hover p i {
+/* .i3:hover p i {
     animation: rotateFan 1s infinite linear, floatFan 2s infinite ease-in-out;
-    color: #fff; /* Đổi màu biểu tượng khi hover */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
 
-}
+} */
 
 @keyframes spin {
     from {
@@ -264,15 +420,43 @@ canvas {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-5px);
+        transform: translateY(-20px);
     }
 }
 
 
 
+.spin-animation {
+    animation: spin 2s linear infinite;
+}
+
+.drop-animation {
+    animation: drop 1.5s linear infinite;
+}
+
+
+
+
+.active-icon {
+    color: aliceblue; /* Chuyển biểu tượng sang màu trắng */
+    animation: spin 2s linear infinite; /* Áp dụng hiệu ứng quay */
+}
+
+.active-icon2 {
+    color: aliceblue;
+    animation: drop 2s linear infinite; /* Áp dụng hiệu ứng quay */
+    animation-delay: 0.2s;
+}
+
+.active-lightbulb {
+    color: aliceblue; /* Đổi màu biểu tượng thành màu vàng để tạo cảm giác sáng */
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8), 
+                 0 0 20px rgba(255, 255, 0, 0.6), 
+                 0 0 30px rgba(255, 255, 0, 0.4);
+}
 /* table_cam_bien */
 
-.search {
+/* .search {
     display: flex;  
     justify-content: center;
     align-items: center;
@@ -289,6 +473,7 @@ canvas {
 
 .search input {
     padding: 10px;
+    width: 200px;
 }
 
 .table_cam_bien {
@@ -335,13 +520,95 @@ canvas {
     align-items: center;
     display: flex;
     justify-content: center;
+} */
+
+#sensorDataTabContent {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#sensorDataTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#sensorDataTable th, #sensorDataTable td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+#sensorDataTable th {
+    background-color: #f2f2f2;
+}
+
+#sensorDataTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#sensorDataTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#pagination button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#pagination button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#pagination button.active {
+    background-color: #28a745;
+    cursor: default;
+}
+
+#pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#pagination span {
+    padding: 10px 15px;
+    margin: 0 5px;
+    color: #666;
+    font-size: 16px;
+    line-height: 40px;
+}
 
 
 /* phan trang */
 
-ul.phan_trang {
+/* ul.phan_trang {
     display: flex;
     list-style: none;
     justify-content: center;
@@ -357,7 +624,7 @@ li.phan_trang_item {
     padding: 15px 20px;
     font-size: 20px;
     cursor: pointer;
-}
+} */
 
 li.active {
     background-color: red;
@@ -369,73 +636,88 @@ li.active {
 }
 
 /*lsu_van_tat_tbi*/
+/* General table styles */
 
-.search-2 {
-    display: flex;  
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 140px;
+#actionHistoryTabContent {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.search-2 button {
+#historySearchInput {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#historyTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#historyTable th, #historyTable td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+#historyTable th {
+    background-color: #f2f2f2;
+}
+
+#historyTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#historyTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+#historyPagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#historyPagination button {
+    padding: 10px 15px;
+    margin: 0 5px;
     border: none;
+    border-radius: 4px;
     background-color: #007BFF;
     color: white;
-    padding: 15px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.search-2 input {
-    padding: 10px;
+#historyPagination button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-
-.lsu_van_tat_tbi {
-    display: grid;
-    margin: 0 auto;
-    width: 600px;
-    height: 300px;
-    grid-template-rows: 50px 200px;
-    margin-top: 117px;
+#historyPagination button.active {
+    background-color: #28a745;
+    cursor: default;
 }
 
-.lsu_van_tat_tbi .cac_phan {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+#historyPagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
-.cac_phan .cc {
-    border: 1px solid gray;
-}
-.cc p {
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.lsu_van_tat_tbi .thong_so {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    
-}
-
-.thong_so .tso {
-    border: 1px solid gray;
-}
-
-.tso p {
-    text-align: center;
-    width: 100%;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#historyPagination span {
+    padding: 10px 15px;
+    margin: 0 5px;
+    color: #666;
+    font-size: 16px;
+    line-height: 40px;
 }
 
 
@@ -491,21 +773,6 @@ li.active {
     margin-right: 20px;
 }
 
-.hoc_van, .ky_nang, .chung_chi {
-    padding-left: 40px;
-    display: flex;
+#profileTabContent h2 {
+    margin-left: 40px;
 }
-
-.hoc_van i, .ky_nang i, .chung_chi i{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    border-radius: 50%;
-    background-image: linear-gradient(to right, #2ab6e3 0%, #2ab6e3 100%);
-    width: 30px;
-    height: 30px;
-    margin-right: 20px;
-    margin-top: 10px;
-}
-
