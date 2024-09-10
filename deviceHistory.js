@@ -1,137 +1,118 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://localhost:3000/api/device_history')
-        .then(response => response.json())
-        .then(data => {
-            const idCol = document.querySelector('.id.tso');
-            const tbiCol = document.querySelector('.tbi.tso');
-            const hdCol = document.querySelector('.hd.tso');
-            const tgCol = document.querySelector('.tg.tso');
-  
-            // Xóa nội dung cũ nếu cần
-            idCol.innerHTML = '';
-            tbiCol.innerHTML = '';
-            hdCol.innerHTML = '';
-            tgCol.innerHTML = '';
-  
-            // Duyệt qua từng hàng dữ liệu và chèn vào cột tương ứng
-            data.forEach(row => {
-                const idDiv = document.createElement('p');
-                idDiv.textContent = row.id;
-                idCol.appendChild(idDiv);
-  
-                const tbiDiv = document.createElement('p');
-                tbiDiv.textContent = row.device;
-                tbiCol.appendChild(tbiDiv);
-  
-                const hdDiv = document.createElement('p');
-                hdDiv.textContent = row.action;
-                hdCol.appendChild(hdDiv);
-  
-                const tgDiv = document.createElement('p');
-                tgDiv.textContent = row.time;
-                tgCol.appendChild(tgDiv);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-  });
+document.addEventListener('DOMContentLoaded', function () {
+    const data = [];
+    for (let i = 1; i <= 50; i++) {
+        data.push({
+            id: i,
+            device: `Device ${i}`,  // Example device values
+            action: i % 2 === 0 ? 'On' : 'Off',  // Example action values
+            time: `${10 + Math.floor(i / 5)}:${(i * 5) % 60} AM` // Time in 5 minute intervals
+        });
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
+    const rowsPerPage = 5;
     let currentPage = 1;
-    const rowsPerPage = 4;
-    
-    fetch('http://localhost:3000/api/device_history')
-        .then(response => response.json())
-        .then(data => {
-            const idCol = document.querySelector('.id.tso');
-            const deviceCol = document.querySelector('.tbi.tso');
-            const actionCol = document.querySelector('.hd.tso');
-            const timeCol = document.querySelector('.tg.tso');
 
-            function renderPage(page) {
-                // Xóa toàn bộ nội dung cũ trong các cột
-                idCol.innerHTML = '';
-                deviceCol.innerHTML = '';
-                actionCol.innerHTML = '';
-                timeCol.innerHTML = '';
+    function renderTable(data, page = 1) {
+        currentPage = page;
 
-                // Tính toán chỉ mục bắt đầu và kết thúc cho trang hiện tại
-                const start = (page - 1) * rowsPerPage;
-                const end = page * rowsPerPage;
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedData = data.slice(start, end);
 
-                // Trích xuất và thêm dữ liệu vào các cột
-                const pageData = data.slice(start, end);
-                pageData.forEach(row => {
-                    const idDiv = document.createElement('p');
-                    idDiv.textContent = row.id;
-                    idCol.appendChild(idDiv);
+        const tableBody = document.getElementById('historyTableBody');
+        tableBody.innerHTML = '';
 
-                    const deviceDiv = document.createElement('p');
-                    deviceDiv.textContent = row.device;
-                    deviceCol.appendChild(deviceDiv);
+        paginatedData.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.id}</td>
+                <td>${row.device}</td>
+                <td>${row.action}</td>
+                <td>${row.time}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
 
-                    const actionDiv = document.createElement('p');
-                    actionDiv.textContent = row.action;
-                    actionCol.appendChild(actionDiv);
+        renderPagination(data.length, page);
+    }
 
-                    const timeDiv = document.createElement('p');
-                    const date = new Date(row.time);
-                    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-                    const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-                    timeDiv.textContent = `${formattedDate} ${formattedTime}`;
-                    timeCol.appendChild(timeDiv);
-                });
+    function renderPagination(totalRows, page) {
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const maxPagesToShow = 3;  // Number of page links to show at a time
+        const pagination = document.getElementById('historyPagination');
+        pagination.innerHTML = '';
+
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '<';
+        prevButton.disabled = page === 1;
+        prevButton.addEventListener('click', () => renderTable(filteredData, page - 1));
+        pagination.appendChild(prevButton);
+
+        // Calculate start and end page numbers
+        let startPage = Math.max(1, page - Math.floor(maxPagesToShow / 2));
+        let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+        if (endPage - startPage + 1 < maxPagesToShow) {
+            startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
+
+        // Add first page and ellipsis if needed
+        if (startPage > 1) {
+            addPageButton(1);
+            if (startPage > 2) {
+                addEllipsis();
             }
+        }
 
-            function updatePagination() {
-                const pagination = document.querySelector('.phan_trang.kc-device');
-                pagination.innerHTML = ''; // Xóa phân trang cũ
+        // Add page buttons
+        for (let i = startPage; i <= endPage; i++) {
+            addPageButton(i);
+        }
 
-                const totalPages = Math.ceil(data.length / rowsPerPage);
-
-                // Thêm nút mũi tên trái nếu không phải trang đầu tiên
-                if (currentPage > 1) {
-                    const prevArrow = document.createElement('li');
-                    prevArrow.textContent = '<'; // Mũi tên trái
-                    prevArrow.classList.add('phan_trang_item', 'prev-arrow');
-                    prevArrow.addEventListener('click', () => changePage(currentPage - 1));
-                    pagination.appendChild(prevArrow);
-                }
-
-                // Thêm các số trang
-                for (let i = 1; i <= totalPages; i++) {
-                    const pageItem = document.createElement('li');
-                    pageItem.textContent = i;
-                    pageItem.classList.add('phan_trang_item');
-                    if (i === currentPage) {
-                        pageItem.classList.add('active');
-                    }
-                    pageItem.addEventListener('click', () => changePage(i));
-                    pagination.appendChild(pageItem);
-                }
-
-                // Thêm nút mũi tên phải nếu không phải trang cuối cùng
-                if (currentPage < totalPages) {
-                    const nextArrow = document.createElement('li');
-                    nextArrow.textContent = '>'; // Mũi tên phải
-                    nextArrow.classList.add('phan_trang_item', 'next-arrow');
-                    nextArrow.addEventListener('click', () => changePage(currentPage + 1));
-                    pagination.appendChild(nextArrow);
-                }
+        // Add last page and ellipsis if needed
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                addEllipsis();
             }
+            addPageButton(totalPages);
+        }
 
-            function changePage(page) {
-                currentPage = page;
-                renderPage(currentPage);
-                updatePagination();
-            }
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '>';
+        nextButton.disabled = page === totalPages;
+        nextButton.addEventListener('click', () => renderTable(filteredData, page + 1));
+        pagination.appendChild(nextButton);
 
-            // Hiển thị trang đầu tiên khi tải trang
-            renderPage(currentPage);
+        function addPageButton(pageNumber) {
+            const button = document.createElement('button');
+            button.textContent = pageNumber;
+            button.className = pageNumber === page ? 'active' : '';
+            button.addEventListener('click', () => renderTable(filteredData, pageNumber));
+            pagination.appendChild(button);
+        }
 
-            // Hiển thị phân trang lần đầu
-            updatePagination();
-        })
-        .catch(error => console.error('Error:', error));
+        function addEllipsis() {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            pagination.appendChild(ellipsis);
+        }
+    }
+
+    const searchInput = document.getElementById('historySearchInput');
+    let filteredData = data;
+
+    searchInput.addEventListener('input', function () {
+        const searchText = searchInput.value.toLowerCase();
+        filteredData = data.filter(row =>
+            String(row.time).toLowerCase().includes(searchText)
+        );
+        renderTable(filteredData, 1);
+    });
+
+    renderTable(data, currentPage);
 });
+
 
 
